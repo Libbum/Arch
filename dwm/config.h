@@ -51,9 +51,8 @@ static const Tag tags[] = {
 static const Rule rules[] = {
 	/*WM_CLASS		WM_CLASS	WM_NAME
 	  class			instance	title				tags mask	isfloating	monitor */
-	{ "Firefox",	NULL,		NULL,				1,			False,		-1 },
+	{ "Chromium",	NULL,		NULL,				1,			False,		-1 },
 	{ NULL,			NULL,		"Jagex Ltd.",		1 << 1,		True,		-1 },
-	{ NULL,			NULL,		"RuneScape",		1 << 1,		False,		-1 },
 	{ "Skype",		NULL,		NULL,				1 << 1,		False,		-1 },
 	{ "Skype",		NULL,		"Call with Aggi~",	1 << 1,		True,		-1 },
 	{ NULL,			"ncmpcpp",	NULL,				1 << 3,		False,		-1 },
@@ -63,8 +62,8 @@ static const Rule rules[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
-#define MONKEY Mod4Mask
+#define MODKEY Mod4Mask
+#define MONKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,			KEY, view, {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,	KEY, tag,  {.ui = 1 << TAG} },
@@ -74,10 +73,10 @@ static const Rule rules[] = {
 
 /* commands */
 static const char *dmenu[]		= { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *term[]		= { "urxvtc", NULL };
-static const char *browser[]	= { "firefox", NULL };
+static const char *term[]		= { "urxvt", NULL };
+static const char *browser[]	= { "chromium", NULL };
 static const char *files[]		= { "nautilus", NULL };
-static const char *music[]		= { "urxvtc", "-name", "ncmpcpp", "-e", "ncmpcpp", NULL };
+static const char *music[]		= { "urxvt", "-name", "ncmpcpp", "-e", "ncmpcpp", NULL };
 static const char *skype[]		= { "skype", NULL };
 static const char *scrot[]		= { "scrot", NULL };
 static const char *kill[]		= { "xkill", NULL };
@@ -134,10 +133,10 @@ static Key keys[] = {
 	TAGKEYS(					XK_F5,						4)
 	{ MODKEY,					XK_o,						view,			{.ui = ~0 } },
 	{ MODKEY|ShiftMask,			XK_a,						tag,			{.ui = ~0 } },
-	{ MONKEY,					XK_Left,					focusmon,		{.i = -1 } },
-	{ MONKEY,					XK_Right,					focusmon,		{.i = +1 } },
-	{ MONKEY|ShiftMask,			XK_Left,					tagmon,			{.i = -1 } },
-	{ MONKEY|ShiftMask,			XK_Right,					tagmon,			{.i = +1 } },
+	{ MONKEY,					XK_Left,					focusmon,		{.i = +1 } },
+	{ MONKEY,					XK_Right,					focusmon,		{.i = -1 } },
+	{ MONKEY|ShiftMask,			XK_Left,					tagmon,			{.i = +1 } },
+	{ MONKEY|ShiftMask,			XK_Right,					tagmon,			{.i = -1 } },
 };
 
 /* button definitions */
