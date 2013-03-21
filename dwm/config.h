@@ -2,8 +2,9 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const char font[]			= "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
-#define NUMCOLORS 4
+static const char font[]			=  "PragmataPro:Regular:size=12:antialias=true:hinting=true"; 
+//"Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
+#define NUMCOLORS 6
 static const char colors[NUMCOLORS][ColLast][9] = {
 	/* border	foreground	background */
 	/* gaia2 */
@@ -11,10 +12,17 @@ static const char colors[NUMCOLORS][ColLast][9] = {
 	//{ "#FDBE45", "#FFA905", "#6D9F99" }, // 2 = selected
 	//{ "#F54844", "#F54844", "#6D9F99" }, // 3 = urgent
 	//{ "#93C724", "#93C724", "#6D9F99" }, // 4 = occupied
-	{ "#0F2328", "#F2F1F0", "#283A3F" },
-	{ "#0076F3", "#3A81CD", "#283A3F" },
-	{ "#DC322F", "#DC322F", "#283A3F" },
-	{ "#16596A", "#16596A", "#283A3F" },
+  { "#073642", "#657b83", "#002b36" }, // 1 = normal (grey on black)
+  { "#b58900", "#eee8d5", "#002b36" }, // 2 = selected (white on black)
+  { "#dc322f", "#002b36", "#b58900" }, // 3 = urgent (black on yellow)
+  { "#073642", "#839496", "#073642" }, // 4 = lightgrey on brightblack
+  { "#073642", "#073642", "#002b36" }, // 5 = brightblack on black
+  { "#073642", "#002b36", "#073642" }, // 6 = black on brightblack
+  
+//  { "#0F2328", "#F2F1F0", "#283A3F" },
+//	{ "#0076F3", "#3A81CD", "#283A3F" },
+//	{ "#DC322F", "#DC322F", "#283A3F" },
+//	{ "#16596A", "#16596A", "#283A3F" },
 };
 static const unsigned int systrayspacing	= 1;	// Systray spacing
 static const unsigned int borderpx			= 2;	// Border pixel of windows
@@ -65,8 +73,8 @@ static const Rule rules[] = {
 #define MODKEY Mod4Mask
 #define MONKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,			KEY, view, {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,	KEY, tag,  {.ui = 1 << TAG} },
+  { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+  { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -75,10 +83,10 @@ static const Rule rules[] = {
 static const char *dmenu[]		= { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *term[]		= { "urxvt", NULL };
 static const char *browser[]	= { "chromium", NULL };
-static const char *files[]		= { "nautilus", NULL };
+/*static const char *files[]		= { "nautilus", NULL };
 static const char *music[]		= { "urxvt", "-name", "ncmpcpp", "-e", "ncmpcpp", NULL };
-static const char *skype[]		= { "skype", NULL };
-static const char *scrot[]		= { "scrot", NULL };
+static const char *skype[]		= { "skype", NULL }; */
+static const char *scrot[]		= { "scrot", NULL }; 
 static const char *kill[]		= { "xkill", NULL };
 static const char *lock[]		= { "slock", NULL };
 static const char *halt[]		= { "dmenu_shutdown", NULL };
@@ -96,11 +104,11 @@ static Key keys[] = {
 	{ MODKEY,					XK_x,						spawn,			{.v = kill } },
 	{ MODKEY,					XK_l,						spawn,			{.v = lock } },
 	{ MODKEY,					XK_Escape,					spawn,			{.v = halt } },
-	{ MODKEY,					XK_1,						spawn,			{.v = term } },
-	{ MODKEY,					XK_2,						spawn,			{.v = browser } },
-	{ MODKEY,					XK_3,						spawn,			{.v = files } },
+	{ MODKEY,					XK_Return,						spawn,			{.v = term } },
+	{ MODKEY,					XK_c,						spawn,			{.v = browser } },
+/*	{ MODKEY,					XK_3,						spawn,			{.v = files } },
 	{ MODKEY,					XK_4,						spawn,			{.v = music } },
-	{ MODKEY,					XK_5,						spawn,			{.v = skype } },
+	{ MODKEY,					XK_5,						spawn,			{.v = skype } }, */
 	{ 0,						XK_Print,					spawn,			{.v = scrot } },
 	{ 0,						XF86XK_AudioRaiseVolume,	spawn,			{.v = volup } },
 	{ 0,						XF86XK_AudioLowerVolume,	spawn,			{.v = voldown } },
@@ -113,8 +121,8 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,		XK_q,						quit,			{0} },
 	{ MODKEY,					XK_Right,					focusstack,		{.i = +1 } },
 	{ MODKEY,					XK_Left,					focusstack,		{.i = -1 } },
-	{ MODKEY,					XK_Return,					zoom,			{0} },
-	{ MODKEY,					XK_Tab,						view,			{0} },
+	{ MODKEY,					XK_z,					zoom,			{0} },
+	{ MODKEY,					XK_Tab,						view,			{0} }, 
 	{ MODKEY,					XK_q,						killclient,		{0} },
 	{ MODKEY,					XK_bracketleft,				setmfact,		{.f = -0.05} },
 	{ MODKEY,					XK_bracketright,			setmfact,		{.f = +0.05} },
@@ -126,13 +134,13 @@ static Key keys[] = {
 	{ MODKEY,					XK_b,						setlayout,		{.v = &layouts[1] } },
 	{ MODKEY,					XK_m,						setlayout,		{.v = &layouts[2] } },
 	{ MODKEY,					XK_f,						setlayout,		{.v = &layouts[3] } },
-	TAGKEYS(					XK_F1,						0)
-	TAGKEYS(					XK_F2,						1)
-	TAGKEYS(					XK_F3,						2)
-	TAGKEYS(					XK_F4,						3)
-	TAGKEYS(					XK_F5,						4)
-	{ MODKEY,					XK_o,						view,			{.ui = ~0 } },
-	{ MODKEY|ShiftMask,			XK_a,						tag,			{.ui = ~0 } },
+	TAGKEYS(					XK_1,						0)
+	TAGKEYS(					XK_2,						1)
+	TAGKEYS(					XK_3,						2)
+	TAGKEYS(					XK_4,						3)
+	TAGKEYS(					XK_5,						4)
+/*	{ MODKEY,					XK_0,						view,			{.ui = ~0 } },
+	{ MODKEY|ShiftMask,			XK_0,						tag,			{.ui = ~0 } }, */
 	{ MONKEY,					XK_Left,					focusmon,		{.i = +1 } },
 	{ MONKEY,					XK_Right,					focusmon,		{.i = -1 } },
 	{ MONKEY|ShiftMask,			XK_Left,					tagmon,			{.i = +1 } },

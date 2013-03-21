@@ -1,0 +1,8 @@
+
+xmonad.hs:166:51:
+    Couldn't match type `Foreign.C.Types.CUInt' with `GHC.Word.Word64'
+    Expected type: KeySym
+      Actual type: KeyMask
+    In the expression: mod4Mask
+    In the expression: (0, mod4Mask)
+    In the expression: ((0, mod4Mask), spawn "menu ~/.xmonad/apps")
