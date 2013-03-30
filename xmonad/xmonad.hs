@@ -61,13 +61,14 @@ myLayout = defaultLayouts
 
 -- Declare workspaces and rules for applications
 
-myWorkspaces = clickable $ ["^i(/home/genesis/.dzen/term.xbm) shell"
-                ,"^i(/home/genesis/.dzen/fs_01.xbm) web"
-                ,"^i(/home/genesis/.dzen/mouse_01.xbm) float"
-                ,"^i(/home/genesis/.dzen/diskette.xbm) docs"
-                ,"^i(/home/genesis/.dzen/note.xbm) tunes"
---              ,"^i(/home/genesis/.dzen/info_03.xbm) irc",
-                ,"^i(/home/genesis/.dzen/mail.xbm) mail"]
+myWorkspaces = clickable $ ["^i(/home/genesis/.dzen/shell.xpm) 1"
+                ,"^i(/home/genesis/.dzen/globe.xpm) 2"
+                ,"^i(/home/genesis/.dzen/calc.xpm) 3"
+                ,"^i(/home/genesis/.dzen/doc.xpm) 4"
+                ,"^i(/home/genesis/.dzen/text.xpm) 5"
+                ,"^i(/home/genesis/.dzen/movie.xpm) 6"
+                ,"^i(/home/genesis/.dzen/mail2.xpm) 7"
+                ,"^i(/home/genesis/.dzen/picture.xpm) 8"]
 
         where clickable l     = [ "^ca(1,xdotool key alt+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                             (i,ws) <- zip [1..] l,
@@ -126,8 +127,8 @@ main = do
                 , borderWidth           = 1
                 , normalBorderColor     = black0
                 , focusedBorderColor    = magenta0
-                , modMask               = mod1Mask
-                , layoutHook            = myLayout
+                , modMask               = mod4Mask
+                , layoutHook            = smartBorders(myLayout)
 --              , layoutHook            = avoidStruts  $  layoutHook defaultConfig
                 , workspaces            = myWorkspaces
                 , manageHook            = newManageHook
@@ -137,58 +138,60 @@ main = do
                 , logHook               = myLogHook dzenLeftBar -- >> fadeInactiveLogHook 0xdddddddd
                 }
                 `additionalKeys`
-                [((mod1Mask .|. shiftMask       , xK_b), spawn "chromium")
-                ,((mod1Mask                     , xK_b), spawn "dwb")
-                ,((mod1Mask .|. shiftMask       , xK_n), spawn "urxvt -fn '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*' -fb '-*-terminus-bold-r-normal-*-12-*-*-*-*-*-*-*' -fi '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*'")
-                ,((mod1Mask .|. shiftMask       , xK_t), spawn "urxvt -e tmux")
-                ,((mod1Mask                     , xK_z), spawn "zathura")
-                ,((mod1Mask                     , xK_r), spawn "/home/genesis/.scripts/lens")
---              ,((mod1Mask .|. shiftMask       , xK_r), spawn "dmenu_run -nb '#000000' -nf '#404040' -sb '#000000' -sf '#FFFFFF' -fn '-*-lime-*-*-*-*-*-*-*-*-*-*-*-*'")
-                ,((mod1Mask .|. shiftMask       , xK_r), spawn "/home/genesis/.scripts/dmenu/spotlight")
-                ,((mod1Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
-                ,((mod1Mask .|. shiftMask       , xK_i), spawn "xcalib -invert -alter")
-                ,((mod1Mask .|. shiftMask       , xK_x), kill)
-                ,((mod1Mask .|. shiftMask       , xK_c), return())
-                ,((mod1Mask                     , xK_p), moveTo Prev NonEmptyWS)
-                ,((mod1Mask                     , xK_n), moveTo Next NonEmptyWS)
-                ,((mod1Mask                     , xK_c), moveTo Next EmptyWS)
-                ,((mod1Mask .|. shiftMask       , xK_l), sendMessage MirrorShrink)
-                ,((mod1Mask .|. shiftMask       , xK_h), sendMessage MirrorExpand)
---              ,((mod1Mask .|. shiftMask       , xK_q), sendMessage MirrorExpand)
-                ,((mod1Mask                     , xK_a), withFocused (keysMoveWindow (-20,0)))
-                ,((mod1Mask                     , xK_comma), withFocused (keysMoveWindow (0,-20)))
-                ,((mod1Mask                     , xK_o), withFocused (keysMoveWindow (0,20)))
-                ,((mod1Mask                     , xK_e), withFocused (keysMoveWindow (20,0)))
-                ,((mod1Mask .|. shiftMask       , xK_a), withFocused (keysResizeWindow (-20,0) (0,0)))
-                ,((mod1Mask .|. shiftMask       , xK_comma), withFocused (keysResizeWindow (0,-20) (0,0)))
-                ,((mod1Mask .|. shiftMask       , xK_o), withFocused (keysResizeWindow (0,20) (0,0)))
-                ,((mod1Mask .|. shiftMask       , xK_e), withFocused (keysResizeWindow (20,0) (0,0)))
-                ,((0                            , xK_Super_L), spawn "menu ~/.xmonad/apps")
-                ,((mod1Mask                     , xK_Super_L), spawn "menu ~/.xmonad/configs")
-                ,((mod1Mask                     , xK_F1), spawn "~/.xmonad/sc ~/.scripts/dzen_music.sh")
-                ,((mod1Mask                     , xK_F2), spawn "~/.xmonad/sc ~/.scripts/dzen_vol.sh")
-                ,((mod1Mask                     , xK_F3), spawn "~/.xmonad/sc ~/.scripts/dzen_network.sh")
-                ,((mod1Mask                     , xK_F4), spawn "~/.xmonad/sc ~/.scripts/dzen_battery.sh")
-                ,((mod1Mask                     , xK_F5), spawn "~/.xmonad/sc ~/.scripts/dzen_hardware.sh")
-                ,((mod1Mask                     , xK_F6), spawn "~/.xmonad/sc ~/.scripts/dzen_pacman.sh")
-                ,((mod1Mask                     , xK_F7), spawn "~/.xmonad/sc ~/.scripts/dzen_date.sh")
-                ,((mod1Mask                     , xK_F8), spawn "~/.xmonad/sc ~/.scripts/dzen_log.sh")
+                [((mod4Mask .|. shiftMask       , xK_b), spawn "chromium")
+                ,((mod4Mask                     , xK_b), spawn "dwb")
+                ,((mod4Mask .|. shiftMask       , xK_n), spawn "urxvt -fn '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*' -fb '-*-terminus-bold-r-normal-*-12-*-*-*-*-*-*-*' -fi '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*'")
+                ,((mod4Mask .|. shiftMask       , xK_t), spawn "urxvt -e tmux")
+--              ,((mod4Mask                     , xK_z), spawn "zathura")
+--              ,((mod4Mask                     , xK_r), spawn "/home/genesis/.scripts/lens")
+--              ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -nb '#000000' -nf '#404040' -sb '#000000' -sf '#FFFFFF' -fn '-*-lime-*-*-*-*-*-*-*-*-*-*-*-*'")
+                ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run")
+--                ,((mod4Mask .|. shiftMask       , xK_r), spawn "/home/genesis/.scripts/dmenu/spotlight")
+                ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
+                ,((mod4Mask .|. shiftMask       , xK_i), spawn "xcalib -invert -alter")
+                ,((mod4Mask .|. shiftMask       , xK_x), kill)
+                ,((mod4Mask .|. shiftMask       , xK_c), return())
+                ,((mod4Mask                     , xK_p), moveTo Prev NonEmptyWS)
+                ,((mod4Mask                     , xK_n), moveTo Next NonEmptyWS)
+                ,((mod4Mask                     , xK_c), moveTo Next EmptyWS)
+                ,((mod4Mask .|. shiftMask       , xK_l), sendMessage MirrorShrink)
+                ,((mod4Mask .|. shiftMask       , xK_h), sendMessage MirrorExpand)
+--              ,((mod4Mask .|. shiftMask       , xK_q), sendMessage MirrorExpand)
+--                ,((mod4Mask                     , xK_v), screenWorkspace sc >>= flip whenJust (windows . f))
+                ,((mod4Mask                     , xK_a), withFocused (keysMoveWindow (-20,0)))
+                ,((mod4Mask                     , xK_comma), withFocused (keysMoveWindow (0,-20)))
+                ,((mod4Mask                     , xK_o), withFocused (keysMoveWindow (0,20)))
+                ,((mod4Mask                     , xK_e), withFocused (keysMoveWindow (20,0)))
+                ,((mod4Mask .|. shiftMask       , xK_a), withFocused (keysResizeWindow (-20,0) (0,0)))
+                ,((mod4Mask .|. shiftMask       , xK_comma), withFocused (keysResizeWindow (0,-20) (0,0)))
+                ,((mod4Mask .|. shiftMask       , xK_o), withFocused (keysResizeWindow (0,20) (0,0)))
+                ,((mod4Mask .|. shiftMask       , xK_e), withFocused (keysResizeWindow (20,0) (0,0)))
+--              ,((0                            , xK_Super_L), spawn "menu ~/.xmonad/apps")
+--              ,((mod4Mask                     , xK_Super_L), spawn "menu ~/.xmonad/configs")
+                ,((mod4Mask                     , xK_F1), spawn "~/.xmonad/sc ~/.scripts/dzen_music.sh")
+                ,((mod4Mask                     , xK_F2), spawn "~/.xmonad/sc ~/.scripts/dzen_vol.sh")
+                ,((mod4Mask                     , xK_F3), spawn "~/.xmonad/sc ~/.scripts/dzen_network.sh")
+                ,((mod4Mask                     , xK_F4), spawn "~/.xmonad/sc ~/.scripts/dzen_battery.sh")
+                ,((mod4Mask                     , xK_F5), spawn "~/.xmonad/sc ~/.scripts/dzen_hardware.sh")
+                ,((mod4Mask                     , xK_F6), spawn "~/.xmonad/sc ~/.scripts/dzen_pacman.sh")
+                ,((mod4Mask                     , xK_F7), spawn "~/.xmonad/sc ~/.scripts/dzen_date.sh")
+                ,((mod4Mask                     , xK_F8), spawn "~/.xmonad/sc ~/.scripts/dzen_log.sh")
                 ,((0                            , xK_Print), spawn "scrot & mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga")
-                ,((mod1Mask                     , xK_Print), spawn "scrot -s & mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga")
+                ,((mod4Mask                     , xK_Print), spawn "scrot -s & mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga")
                 ,((0                            , xF86XK_AudioLowerVolume), spawn "amixer set Master 2- & mplayer /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga")
                 ,((0                            , xF86XK_AudioRaiseVolume), spawn "amixer set Master 2+ & mplayer /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga")
                 ,((0                            , xF86XK_AudioMute), spawn "amixer set Master toggle")
 --              ,((0                            , xF86XK_Display), spawn "xrandr --output VGA1 --mode 1366x768")
-                ,((0                            , xF86XK_Sleep), spawn "pm-suspend")
+                ,((0                            , xF86XK_Sleep), spawn "sudo suspend")
                 ,((0                            , xF86XK_AudioPlay), spawn "ncmpcpp toggle")
                 ,((0                            , xF86XK_AudioNext), spawn "ncmpcpp next")
                 ,((0                            , xF86XK_AudioPrev), spawn "ncmpcpp prev")
                 ]
                 `additionalMouseBindings`
-                [((mod1Mask                     , 6), (\_ -> moveTo Next NonEmptyWS))
-                ,((mod1Mask                     , 7), (\_ -> moveTo Prev NonEmptyWS))
-                ,((mod1Mask                     , 5), (\_ -> moveTo Prev NonEmptyWS))
-                ,((mod1Mask                     , 4), (\_ -> moveTo Next NonEmptyWS))
+                [((mod4Mask                     , 6), (\_ -> moveTo Next NonEmptyWS))
+                ,((mod4Mask                     , 7), (\_ -> moveTo Prev NonEmptyWS))
+                ,((mod4Mask                     , 5), (\_ -> moveTo Prev NonEmptyWS))
+                ,((mod4Mask                     , 4), (\_ -> moveTo Next NonEmptyWS))
                 ]
 
 myTerminal      = "urxvt"
