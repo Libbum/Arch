@@ -61,14 +61,15 @@ myLayout = defaultLayouts
 
 -- Declare workspaces and rules for applications
 
-myWorkspaces = clickable $ ["^i(/home/genesis/.dzen/shell.xpm) 1"
-                ,"^i(/home/genesis/.dzen/globe.xpm) 2"
-                ,"^i(/home/genesis/.dzen/calc.xpm) 3"
-                ,"^i(/home/genesis/.dzen/doc.xpm) 4"
-                ,"^i(/home/genesis/.dzen/text.xpm) 5"
-                ,"^i(/home/genesis/.dzen/movie.xpm) 6"
-                ,"^i(/home/genesis/.dzen/mail2.xpm) 7"
-                ,"^i(/home/genesis/.dzen/picture.xpm) 8"]
+myWorkspaces = clickable $ ["^i(/home/genesis/.xmonad/icons/shell.xbm) 1"
+                ,"^i(/home/genesis/.xmonad/icons/globe.xbm) 2"
+                ,"^i(/home/genesis/.xmonad/icons/calc.xbm) 3"
+                ,"^i(/home/genesis/.xmonad/icons/doc.xbm) 4"
+                ,"^i(/home/genesis/.xmonad/icons/text.xbm) 5"
+                ,"^i(/home/genesis/.xmonad/icons/movie.xbm) 6"
+                ,"^i(/home/genesis/.xmonad/icons/mail.xbm) 7"
+                ,"^i(/home/genesis/.xmonad/icons/monitor.xbm) 8"
+                ,"^i(/home/genesis/.xmonad/icons/picture.xbm) 9"]
 
         where clickable l     = [ "^ca(1,xdotool key alt+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                             (i,ws) <- zip [1..] l,
@@ -98,12 +99,12 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                 , ppSep                 = "    "
                 , ppLayout              = wrap "^ca(1,xdotool key alt+space)" "^ca()" . dzenColor white1 background .
                                 (\x -> case x of
-                                        "Full"                           ->      "^i(/home/genesis/.xmonad/dzen2/layout_full.xbm)"
-                                        "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/dzen2/layout_tall.xbm)"
-                                        "ResizableTall"                  ->      "^i(/home/genesis/.xmonad/dzen2/layout_tall.xbm)"
-                                        "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/dzen2/mouse_01.xbm)"
-                                        "Circle"                         ->      "^i(/home/genesis/.xmonad/dzen2/full.xbm)"
-                                        _                                ->      "^i(/home/genesis/.xmonad/dzen2/grid.xbm)"
+                                        "Full"                           ->      "^i(/home/genesis/.xmonad/icons/monitor.xbm)"
+                                        "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
+                                        "ResizableTall"                  ->      "^i(/home/genesis/.xmonad/icons/layout_tall.xbm)"
+                                        "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/icons/layers.xbm)"
+                                        "Circle"                         ->      "^i(/home/genesis/.xmonad/icons/circle.xbm)"
+                                        _                                ->      "^i(/home/genesis/.xmonad/icons/grid3x3.xbm)"
                                 )
 --              , ppTitle       =   wrap "^ca(1,xdotool key alt+shift+x)^fg(#424242)^i(/home/genesis/.xmonad/dzen2/corner_left.xbm)^bg(#424242)^fg(#74637d)X" "^fg(#424242)^i(/home/genesis/.xmonad/dzen2/corner_right.xbm)^ca()" .  dzenColor background green0 . shorten 40 . pad		
                 , ppOrder       =  \(ws:l:t:_) -> [ws,l]
