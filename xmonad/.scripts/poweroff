@@ -1,6 +1,0 @@
-#!/bin/bash
-
-modprobe -r ehci_hcd &
-modprobe -r uhci_hcd &
-modprobe -r ohci_hcd &
-systemctl poweroff

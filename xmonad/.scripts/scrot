@@ -1,3 +1,0 @@
-#!/bin/bash
-
-scrot -c '%d-%m-%Y_%H:%M:%S_scrot.png' -e 'mv $f ~/Images/Screenshots'
