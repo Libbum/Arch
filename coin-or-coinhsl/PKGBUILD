@@ -1,0 +1,34 @@
+# Requirements:
+#
+# You will need to provide coinhsl-2015.06.23.tar.gz in the base directory for this package to build.
+# This is free for academic purposes. Optain a copy from http://www.hsl.rl.ac.uk/ipopt/
+
+pkgname=coin-or-coinhsl
+pkgver=1.5.7
+pkgrel=1
+pkgdesc="COIN-OR autotools harness to build HSL Linear Solvers"
+arch=('i686' 'x86_64')
+url="https://github.com/coin-or-tools/ThirdParty-HSL/"
+license=('custom')
+groups=('coin-or')
+depends=('glibc' 'coin-or-coinmetis')
+makedepends=('wget' 'gcc-fortran')
+source=("https://github.com/coin-or-tools/ThirdParty-HSL/archive/releases/$pkgver.tar.gz" "coinhsl-2015.06.23.tar.gz")
+sha256sums=('bfef752eb69c16486c58130bfb1b0dd0582dd3a2f3510ac78c8249792f414293' '3e955a2072f669b8f357ae746531b37aea921552e415dc219a5dd13577575fb3')
+
+prepare() {
+    mv coinhsl-2015.06.23 ThirdParty-HSL-releases-$pkgver/coinhsl
+}
+
+build() {
+    cd "ThirdParty-HSL-releases-$pkgver"
+    ./configure --prefix=/usr
+    make
+}
+
+package() {
+    cd "ThirdParty-HSL-releases-$pkgver"
+    PKG_CONFIG_LIBDIR="${pkgdir}/usr/lib/pkgconfig/" \
+    make DESTDIR="${pkgdir}" install
+}
+
