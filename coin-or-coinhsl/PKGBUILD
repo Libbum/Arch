@@ -14,7 +14,7 @@ groups=('coin-or')
 depends=('glibc' 'coin-or-coinmetis')
 makedepends=('wget' 'gcc-fortran')
 source=("https://github.com/coin-or-tools/ThirdParty-HSL/archive/releases/$pkgver.tar.gz" "coinhsl-2015.06.23.tar.gz")
-sha256sums=('bfef752eb69c16486c58130bfb1b0dd0582dd3a2f3510ac78c8249792f414293' '3e955a2072f669b8f357ae746531b37aea921552e415dc219a5dd13577575fb3')
+sha256sums=('9dc2a33d8c8702692f89d43916a0d46107d421f70c2a5f0b77bc1c10d9b0f1e5' '3e955a2072f669b8f357ae746531b37aea921552e415dc219a5dd13577575fb3')
 
 prepare() {
     mv coinhsl-2015.06.23 ThirdParty-HSL-releases-$pkgver/coinhsl
