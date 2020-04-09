@@ -4,7 +4,7 @@
 # This is free for academic purposes. Optain a copy from http://www.hsl.rl.ac.uk/ipopt/
 
 pkgname=coin-or-coinhsl
-pkgver=1.5.7
+pkgver=1.5.8
 pkgrel=1
 pkgdesc="COIN-OR autotools harness to build HSL Linear Solvers"
 arch=('i686' 'x86_64')
