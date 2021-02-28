@@ -1,0 +1,6 @@
+*.tar.xz
+*.tgz
+*.tar.gz
+*.tar.zst
+coin-or-*/src/
+coin-or-*/pkg/
