@@ -1,7 +1,7 @@
 # This build follows the standard coin-or-ipopt package in the AUR, but adds HSL to the build.
 
 pkgname=coin-or-ipopt
-pkgver=3.13.4
+pkgver=3.14.5
 pkgrel=1
 pkgdesc="Interior Point OPTimizer"
 arch=('i686' 'x86_64')
@@ -10,7 +10,7 @@ license=('EPL')
 groups=('coin-or')
 depends=('lapack' 'coin-or-asl' 'coin-or-coinmumps' 'coin-or-coinhsl')
 source=("https://github.com/coin-or/Ipopt/archive/releases/${pkgver}.tar.gz")
-sha256sums=('86354b36c691e6cd6b8049218519923ab0ce8a6f0a432c2c0de605191f2d4a1c')
+sha256sums=('9ebbbbf14a64e998e3fba5d2662a8f9bd03f97b1406017e78ae54e5d105ae932')
 
 build() {
   cd "$srcdir"
@@ -32,4 +32,3 @@ package() {
   install -d "$pkgdir/usr/include/coin"
   install -m644 "$pkgdir"/usr/include/coin-or/* "$pkgdir"/usr/include/coin
 }
-sha256sums=('1fdd0f8ea637856d66b1ebdd7d52ad1b8b8c1142d1a4ce0976b200ab280e5683')
